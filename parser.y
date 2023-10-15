@@ -4,7 +4,7 @@
   #include "y.tab.h"
   extern FILE *yyin;
   int flag=0; 
-
+ 
 %}
 
 %start S
@@ -17,22 +17,18 @@
 %% 
 //Start
 S:  P END
-P:  | A TOKEN_SMCLN P ;
-A: | ASS| PRINTSTMT| UNSTMT| DOWHILELP| WHILELP | TOKEN_NEW_LINE
+P:  | A TOKEN_SMCLN |  A TOKEN_SMCLN P| A;
+A:  | ASS| PRINTSTMT| UNSTMT| DOWHILELP| WHILELP ;
 END: |TOKEN_SMCLN
 
 //Assignment and statements
 ASS: F| TOKEN_VARIABLE TOKEN_IDENTIFIER TOKEN_EQUAL F| TOKEN_CONST TOKEN_IDENTIFIER TOKEN_EQUAL F|TOKEN_LET TOKEN_IDENTIFIER TOKEN_EQUAL F |TOKENID TOKEN_EQUAL F|TOKEN_LET TOKEN_IDENTIFIER| TOKEN_VARIABLE TOKEN_IDENTIFIER| TOKENID TOKEN_RE_ASSIGNMENT F;
-F: E| TOKEN_PLUS E| TOKEN_MINUS E |TOKEN_NOT F| UNSTMT| TOKEN_PRE_UNARY F| G TOKEN_QUESTION_MARK G TOKEN_COLON G TERNARY_MULTIPLE_1 | TOKEN_LP F TOKEN_RP;
-E:  D| E TOKEN_BIN_OPERATOR E|E TOKEN_PLUS E|E TOKEN_MINUS E| E TOKEN_COMP_OPERATOR E| E TOKEN_ANDOR E | TOKEN_LP E TOKEN_RP;
+F:  TOKEN_PLUS E| TOKEN_MINUS E |TOKEN_NOT F| UNSTMT| TOKEN_PRE_UNARY F | TOKEN_LP F TOKEN_RP|  E;
+E:   E TOKEN_COMP_OPERATOR E| E TOKEN_BIN_OPERATOR E|E TOKEN_PLUS E|E TOKEN_MINUS E| E TOKEN_ANDOR E | TOKEN_LP E TOKEN_RP| D| F_TERNARY_RIGHT;
+F_TERNARY_RIGHT: F TOKEN_QUESTION_MARK F TOKEN_COLON F // on right side of equality ternary expression on either side of colons can be variables or constants.
 D: TOKEN_INTEGER |TOKEN_DECIMAL|TOKEN_BINARY|TOKEN_OCTAL|TOKEN_EXP|TOKEN_HEXADECIMAL|TOKEN_BIG_INTEGER|TOKEN_STRING|TOKEN_BOOLEAN| TOKENID| TOKEN_LP D TOKEN_RP;
-TOKENID: TOKEN_IDENTIFIER | TOKEN_IDENTIFIER TOKEN_DOT TOKEN_IDENTIFIER| G TOKEN_QUESTION_MARK TERNARY_RIGHT TOKEN_COLON TERNARY_RIGHT TERNARY_MULTIPLE_2;
-TERNARY_MULTIPLE_1: | TOKEN_QUESTION_MARK G TOKEN_COLON G TERNARY_MULTIPLE_1  //for x?y:z?a:b and so one... for the ternary operator in left side of assignment statement, it allows expressions in left side.
-TERNARY_MULTIPLE_2: | TOKEN_QUESTION_MARK TERNARY_RIGHT TOKEN_COLON TERNARY_RIGHT TERNARY_MULTIPLE_2; //for x?y:z?a:b and so one... for the ternary operator in right side of assignment statement, it doesnt allow expressions, only identifiers.
-
-//ternary statements
-G: TOKEN_LP F TOKEN_RP| F;
-TERNARY_RIGHT: TOKEN_LP TOKENID TOKEN_RP | TOKENID;
+TOKENID: TOKEN_IDENTIFIER | TOKEN_IDENTIFIER TOKEN_DOT TOKEN_IDENTIFIER| F_TERNARY_LEFT| TOKEN_LP TOKENID TOKEN_RP;
+F_TERNARY_LEFT: F TOKEN_QUESTION_MARK TOKENID TOKEN_COLON TOKENID;  // on left side of equality ternary expression on either side of colons cannot be variables or constants.
 
 //print statement
 PRINTSTMT: TOKEN_PRINT TOKEN_LP Z TOKEN_RP;
@@ -57,26 +53,12 @@ COMPEXP: F TOKEN_COMP_OPERATOR COMPEXP| F| TOKEN_LC COMPEXP TOKEN_RC;
 
 
  
- 
-void main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s input_file\n", argv[0]);
-        return ;
-    }
-
-    FILE *input_file = fopen(argv[1], "r");
-    if (input_file == NULL) {
-        perror("Error opening file");
-        return ;
-    }
-
-    yyin = input_file; // Set the input stream for lex
-
-    yylex();
+void main() 
+{ 
+  printf("\nEnter code:\n"); 
    yyparse(); 
    if(flag==0) 
    	printf("\nEntered arithmetic expression is Valid\n\n"); 
-    
 }
  
 void yyerror() 
@@ -84,3 +66,5 @@ void yyerror()
    printf("\nEntered arithmetic expression is Invalid\n\n"); 
    flag=1; 
 }
+
+// ternary

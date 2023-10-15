@@ -21,12 +21,12 @@
 "const" {printf("TOKEN_CONST\n"); return TOKEN_CONST; }
 "let" { printf("TOKEN_LET\n");return TOKEN_LET; }
 "++"|"--" { printf("TOKEN_UNARY_OPERATOR\n");return TOKEN_UNARY_OPERATOR; }
-'~' {printf("TOKEN_PRE_UNARY\n");return TOKEN_PRE_UNARY;}
+"~" {printf("TOKEN_PRE_UNARY\n");return TOKEN_PRE_UNARY;}
 ";" {printf("TOKEN_SMCLN\n");return TOKEN_SMCLN;}
 "=" {printf("TOKEN_EQUAL\n"); return TOKEN_EQUAL;}
+"!" {printf("TOKEN_NOT\n");return TOKEN_NOT;}
 ">="|"<="|">"|"<"|"=="|"!="|"==="|"!==" {printf("TOKEN_COMP_OPERATOR\n");return TOKEN_COMP_OPERATOR;}
 "&&"|"||" {printf("TOKEN_ANDOR\n");return TOKEN_ANDOR;}
-"!" {printf("TOKEN_NOT\n");return TOKEN_NOT;}
 "{" {printf("TOKEN_LC\n");return TOKEN_LC;}
 "}" {printf("TOKEN_RC\n");return TOKEN_RC;} 
 "while" {printf("TOKEN_WHILE\n");return TOKEN_WHILE;}
@@ -63,8 +63,10 @@
 ":" {printf("TOKEN_COLON\n");return TOKEN_COLON;}
 "..." {printf("TOKEN_3DOTS\n");return TOKEN_3DOTS;}
 "." {printf("TOKEN_DOT\n");return TOKEN_DOT;}
-\n|. 
-
+[\n] {return 0;}
+. {}
 %% 
-  
-int yywrap() { return 1; }
+int yywrap()								
+{
+	return 1;
+}
