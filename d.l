@@ -11,9 +11,10 @@
 %% 
 
 "in" { printf("TOKEN_IN\n"); return TOKEN_IN;}
-"break"|"case"|"catch"|"class"|"continue"|"debugger"|"default"|"delete"|"export"|"enum"|"extends"|"finally"|"import"|"instanceof"|"new"|"super"|"switch"|"this"|"throw"|"try"|"typeof"|"void"|"with" { printf("TOKEN_KEYWORD\n"); return TOKEN_KEYWORD; }
+"break"|"case"|"catch"|"class"|"continue"|"debugger"|"default"|"delete"|"export"|"enum"|"extends"|"finally"|"import"|"instanceof"|"super"|"switch"|"this"|"throw"|"try"|"typeof"|"void"|"with" { printf("TOKEN_KEYWORD\n"); return TOKEN_KEYWORD; }
 "function" { printf("TOKEN_FUNCTION\n"); return TOKEN_FUNCTION; }
 "return" { printf("TOKEN_RETURN\n"); return TOKEN_RETURN;}
+"new" { printf("TOKEN_NEW\n"); return TOKEN_NEW;}
 "static"|"arguments"|"eval"|"yield"|"implements"|"interface"|"package"|"private"|"protected"|"public" { printf("TOKEN_PSEUDOKEYWORD\n");return TOKEN_PSEUDOKEYWORD; }
 "console.log"  {printf("TOKEN_PRINT\n");return TOKEN_PRINT;}
 "false"|"true" { printf("TOKEN_BOOLEAN\n");return TOKEN_BOOLEAN; }
