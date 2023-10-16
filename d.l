@@ -9,7 +9,7 @@
       
 /* Rule Section */
 %% 
-
+"=>" {printf("TOKEN_ARROW\n"); return TOKEN_ARROW;}
 "in" { printf("TOKEN_IN\n"); return TOKEN_IN;}
 "break"|"case"|"catch"|"class"|"continue"|"debugger"|"default"|"delete"|"export"|"enum"|"extends"|"finally"|"import"|"instanceof"|"super"|"switch"|"this"|"throw"|"try"|"typeof"|"void"|"with" { printf("TOKEN_KEYWORD\n"); return TOKEN_KEYWORD; }
 "function" { printf("TOKEN_FUNCTION\n"); return TOKEN_FUNCTION; }
