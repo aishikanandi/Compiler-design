@@ -11,8 +11,8 @@ You may change the 3rd line of shell script into any other file name for testing
 cc lex.yy.c y.tab.c main.c -ll
 ./a.out sample.js
 
-note that lex.yy.c can be produced from the command=> lex d.l
-y.tab.c can be produced from=> yacc -Wnone -d parser.y
-main.c is the main c file to take inputs to lex file.
-a.out is the final executable for syntax analysis of any js code
+1. note that lex.yy.c can be produced from the command=> lex d.l
+2. y.tab.c can be produced from=> yacc -Wnone -d parser.y
+3. main.c is the main c file to take inputs to lex file.
+4. a.out is the final executable for syntax analysis of any js code
 ]

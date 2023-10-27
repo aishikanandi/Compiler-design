@@ -8,7 +8,7 @@
 extern void yyerror(const char*);
 extern char* yytext;
 extern int yyget_lineno(void);
- 
+ extern char* prev_token;
 %}
 
 %start input
@@ -22,7 +22,7 @@ extern int yyget_lineno(void);
 %% 
 
 input: ST
-     | error { yyerror("Invalid Input: Syntax error"); } 
+     | error {  yyerror("Invalid Input: Syntax error"); } 
 
 //Start
 ST: NEWLINE TOKEN_HASHBANG_COMMENT P END_SMCLN TOKEN_EOF| NEWLINE P END_SMCLN;
@@ -141,7 +141,7 @@ END_SWITCH: | TOKEN_SMCLN;
 %% 
 
 void yyerror(const char *msg) {
-    fprintf(stderr, "%s after '%s'\n", msg, yytext);
+    fprintf(stderr, "%s before: %s", msg, prev_token);
     flag = 1;
     exit(1);
 }
