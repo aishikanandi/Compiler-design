@@ -1,0 +1,26 @@
+let a=1;
+let b=2;
+var c=a;
+var d=b;
+    var i;
+    if (a>b||(c&&d))
+    {
+	a=1;
+    }
+    else if (a)
+    {
+	b=2;
+    }
+    else
+    {
+	a=a+2;
+    }
+ 
+    do{
+    a=a+5*6/7;
+    }while(a);
+
+   for(i=0;i<1;i++){
+    	e=1;
+    }
+    c=1;
